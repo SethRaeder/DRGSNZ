@@ -1,10 +1,11 @@
+import { SVG } from './svg.js'
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
 canvas.width = 1024;
 canvas.height = 576;
 
-//c.fillRect(0, 0, canvas.width, canvas.height)
+c.fillRect(0, 0, canvas.width, canvas.height)
 
 class Sprite {
     //Class for canvas sprites
@@ -13,16 +14,16 @@ class Sprite {
     }
 
     draw() {
-        c.fillStyle = `red`;
-        c.fillRect(this.position.x, this.position.y, 50, 150);
+
     }
 }
 
 const player = new Sprite({
     x: 0,
     y: 0
-})
+});
 
-player.draw();
+console.log("Hello")
 
-console.log(player);
+var draw = SVG().addTo('body').size(300, 300)
+var rect = draw.rect(100, 100).attr({ fill: '#f06' })
