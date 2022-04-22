@@ -1,16 +1,12 @@
-<!DOCTYPE html>
 <html>
-
-<head>
-    <title>DRGSNZ V2</title>
-</head>
-
-<body>
-    Help me.
-
-</body>
-<canvas></canvas>
 
 </html>
 
-<script type="module" src="index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js">
+    var draw = SVG().addTo('body').size(300, 300)
+    var rect = draw.rect(100, 100).attr({
+        fill: '#f06'
+    })
+</script>
+
+<script src="svgtest.js"></script>
