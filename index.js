@@ -23,6 +23,6 @@ const player = new Sprite({
     y: 0
 })
 
-console.log(player);
+player.draw();
 
-player.draw;
+console.log(player);
