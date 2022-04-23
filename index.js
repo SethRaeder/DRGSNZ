@@ -125,6 +125,19 @@ class Character {
 
         }
     }
+
+    getSpriteIndex() {
+        if (this.sneezing) {
+            return 3
+        }
+        if (this.sneezePercent > this.hitchThreshold) {
+            return 2
+        }
+        if (this.sneezePercent > this.idleThreshold) {
+            return 1
+        }
+        return 0
+    }
 }
 
 var snot = new SpriteSheet(['assets/charZephyr/snot.svg',
@@ -218,9 +231,7 @@ function update(progress) {
         //console.log(progress)
         //console.log(charZephyr.irritation)
         //console.log(charZephyr.sneezePercent)
-    previewSprites.setSprite(Math.floor(map_range(charZephyr.sneezePercent,
-        0, 100,
-        0, 3)))
+    previewSprites.setSprite(charZephyr.getSpriteIndex())
 }
 
 function draw() {
