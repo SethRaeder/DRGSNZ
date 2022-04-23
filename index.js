@@ -2,6 +2,19 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
+function clamp_range(value, low, high) {
+    if (value < low) {
+        return low
+    } else if (value > high) {
+        return high
+    }
+    return value
+}
+
 class SpriteSheet {
     constructor(spritesArr) {
         this.spritesArr = spritesArr
@@ -45,6 +58,8 @@ class Character {
         this.irritation = 0.0
         this.sneezePercent = 0.0
         this.sneezePower = 0.0
+        this.hitching = false
+        this.sneezing = false
 
         this.lungs = 0.0
         this.breathHoldCounter = 0.0
@@ -62,19 +77,54 @@ class Character {
         this.inhaledPowder = 0
         this.inhaledChhinkni = 0
         this.inhaledPollen = 0
+
+        this.irritationDecay = -5
+
+        this.sneezeTime = 0
     }
 
+    update(progress) {
+        this.doIrritation(progress)
+        this.doSneeze(progress)
+    }
     changeIrritation(amount) {
-        this.irritation += amount
-        if (this.irritation < 0) {
-            this.irritation = 0
-        }
-        if (this.irritation > 100) {
-            this.irritation = 100
-        }
+        this.irritation = clamp_range(this.irritation + amount, 0, 100)
     }
 
+    changeSneezePercent(amount) {
+        this.sneezePercent = clamp_range(this.sneezePercent + amount, 0, 100)
+    }
 
+    changeLungs(amount) {
+        //let deltaBreath = (progress * breathPerSecond / 1000)
+        this.lungs = clamp_range(this.lungs + amount, 0, 100)
+    }
+
+    irritate(progress) {
+        this.changeIrritation(20 / progress)
+    }
+
+    doIrritation(progress) {
+        let deltaSneeze = map_range(this.irritation, 0, 100, -10, 20) / progress
+        this.changeSneezePercent(deltaSneeze)
+        this.changeIrritation(this.irritationDecay / progress)
+    }
+
+    doSneeze(progress) {
+        if (this.sneezing) {
+            if (this.sneezeTime > 1000) {
+                this.sneezeTime = 0
+                this.sneezing = false
+                this.changeSneezePercent(-1 * Math.random() * 100)
+                this.changeIrritation(-1 * Math.random() * 100)
+            }
+            this.sneezeTime += progress
+        }
+        if (this.sneezePercent >= this.sneezeThreshold) {
+            this.sneezing = true
+
+        }
+    }
 }
 
 var snot = new SpriteSheet(['assets/charZephyr/snot.svg',
@@ -155,21 +205,20 @@ document.addEventListener('keyup', function(event) {
     }
 }, true)
 
-function map_range(value, low1, high1, low2, high2) {
-    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
-}
+
 
 function update(progress) {
-
-    console.log(charZephyr.irritation)
-    if (irritate) {
-        charZephyr.changeIrritation(progress * 0.1)
-
-    } else {
-        charZephyr.changeIrritation(progress * -0.05)
+    if (progress == 0) {
+        return
     }
-
-    previewSprites.setSprite(Math.floor(map_range(charZephyr.irritation,
+    if (irritate) {
+        charZephyr.irritate(progress)
+    }
+    charZephyr.update(progress)
+        //console.log(progress)
+        //console.log(charZephyr.irritation)
+        //console.log(charZephyr.sneezePercent)
+    previewSprites.setSprite(Math.floor(map_range(charZephyr.sneezePercent,
         0, 100,
         0, 3)))
 }
