@@ -53,8 +53,8 @@ class SpriteSheet {
         }
         this.curElement.x(rect.xPos)
         this.curElement.y(rect.yPos)
-        let width = this.curElement.size()[0]
-        let height = this.curElement.size()[1]
+        let width = this.curElement.width()
+        let height = this.curElement.height()
         this.curElement.size(rect.width * width, rect.height * height)
     }
 
