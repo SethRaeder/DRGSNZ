@@ -20,12 +20,19 @@ function clamp_range(value, low, high) {
 class SpriteSheet {
     constructor(spritesArr, svgDraw) {
         this.spritesArr = spritesArr
-        this.elementArr = this.initElements(svgDraw)
+        this.elementArr = this.fetchElements(svgDraw)
         this.spriteIndex = 0
         this.lastSprite = -1
         this.curElement = null
     }
 
+    fetchElements(svgDraw) {
+        for (let i = 0; i < this.spritesArr.length; i++) {
+            let svgElement = await fetch(this.spritesArr[i]).then(response => response.responseText).then(text => svgDraw.svg(text))
+            tempArr.push(svgElement)
+                //svgElement.hide()
+        }
+    }
     initElements(svgDraw) {
         let tempArr = []
 
