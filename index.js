@@ -28,7 +28,7 @@ class SpriteSheet {
 
     async fetchElements(svgDraw) {
         for (let i = 0; i < this.spritesArr.length; i++) {
-            let response = fetch(this.spritesArr[i])
+            let response = await fetch(this.spritesArr[i])
             let element = svgDraw.svg(response.responseText)
             this.elementArr.push(element)
                 //svgElement.hide()
