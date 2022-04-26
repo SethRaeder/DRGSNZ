@@ -38,15 +38,12 @@ class SpriteSheet {
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // Typical action to be performed when the document is ready:
-                    let width = xhttp.responseXML.getAttribute("width")
-                    let height = xhttp.responseXML.getAttribute("height")
-                    let transform = xhttp.responseXML.getAttribute("transform")
+                    let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
+                    let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
+                    let transform = xhttp.responseXML.getElementsByTagName("transform")[0].nodeValue
                     console.log(transform)
 
                     tempArr[i].size(width, height)
-                    tempArr[i].transform({
-                        transform
-                    })
                     tempArr[i].hide()
                 }
             };
