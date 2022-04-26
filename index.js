@@ -20,13 +20,13 @@ function clamp_range(value, low, high) {
 class SpriteSheet {
     constructor(spritesArr, svgDraw) {
         this.spritesArr = spritesArr
-        this.elementArr = this.fetchElements(svgDraw)
+        this.elementArr = await this.fetchElements(svgDraw)
         this.spriteIndex = 0
         this.lastSprite = -1
         this.curElement = null
     }
 
-    fetchElements(svgDraw) {
+    async fetchElements(svgDraw) {
         for (let i = 0; i < this.spritesArr.length; i++) {
             let response = await fetch(this.spritesArr[i])
             let element = svgDraw.svg(response.responseText)
