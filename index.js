@@ -6,6 +6,8 @@ function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
+
+
 function clamp_range(value, low, high) {
     if (value < low) {
         return low
@@ -27,15 +29,30 @@ class SpriteSheet {
     initElements(svgDraw) {
         let tempArr = []
 
+        let xhttp = new XMLHttpRequest()
+
         for (let i = 0; i < this.spritesArr.length; i++) {
             tempArr.push(svgDraw.image(this.spritesArr[i]))
 
-            let doc = tempArr[i].contentDocument;
-            let width = doc.getAttribute("width")
-            let height = doc.getAttribute("height")
 
-            tempArr[i].size(width, height)
-            tempArr[i].hide()
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Typical action to be performed when the document is ready:
+                    let width = xhttp.responseXML.getAttribute("width")
+                    let height = xhttp.responseXML.getAttribute("height")
+                    let transform = xhttp.responseXML.getAttribute("transform")
+                    console.log(transform)
+
+                    tempArr[i].size(width, height)
+                    tempArr[i].transform({
+                        transform
+                    })
+                    tempArr[i].hide()
+                }
+            };
+
+            xhttp.open("GET", this.spritesArr[i])
+            xhttp.send()
         }
 
         return tempArr
