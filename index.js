@@ -24,17 +24,15 @@ class SpriteSheet {
         this.curElement = null
     }
 
-    async fetchElements(svgDraw) {
+    async fetchElements() {
         for (let i = 0; i < this.spritesArr.length; i++) {
             let response = await fetch(this.spritesArr[i])
-            let temp = svgDraw.element('temp')
-            temp = temp.svg(response.responseText, true)
+            let temp = SVG()
+            console.log(temp.svg(response.responseText, true))
             this.elementArr.push(temp)
                 //svgElement.hide()
         }
-        // console.log(this.elementArr)
         this.curElement = this.elementArr[0]
-            //console.log(this.curElement)
     }
 
     draw() {
@@ -42,7 +40,7 @@ class SpriteSheet {
             try {
                 this.curElement.hide()
             } catch (error) {}
-            //console.log(this.curElement)
+
             this.curElement = this.elementArr[this.spriteIndex]
             this.curElement.show()
             this.lastSprite = this.spriteIndex
