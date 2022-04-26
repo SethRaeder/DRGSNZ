@@ -267,6 +267,7 @@ await pupilSprites.fetchElements(svgDraw)
 await eyeSprites.fetchElements(svgDraw)
 await earCloseSprites.fetchElements(svgDraw)
 await nostrilSprites.fetchElements(svgDraw)
+await previewSprites.fetchElements(svgDraw)
 await toolSprites.fetchElements(svgDraw)
 console.log('svgs loaded')
 
