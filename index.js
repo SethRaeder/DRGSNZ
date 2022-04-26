@@ -16,21 +16,43 @@ function clamp_range(value, low, high) {
 }
 
 class SpriteSheet {
-    constructor(spritesArr) {
+    constructor(spritesArr, svgDraw) {
         this.spritesArr = spritesArr
+        this.elementArr = this.initElements(svgDraw)
         this.spriteIndex = 0
         this.lastSprite = -1
         this.curElement = null
     }
-    draw(svgDraw) {
-        if (this.spriteIndex != this.lastSprite) {
-            try {
-                this.curElement.remove()
-            } catch (error) {}
-            this.curElement = svgDraw.image(this.spritesArr[this.spriteIndex]);
-            this.lastSprite = this.spriteIndex
+
+    initElements(svgDraw) {
+        let tempArr = []
+
+        for (let i = 0; i < this.spritesArr.length; i++) {
+            tempArr.push(svgDraw.image(this.spritesArr[i]))
+            tempArr[i].hide()
         }
 
+        return tempArr
+    }
+
+    draw() {
+        if (this.spriteIndex != this.lastSprite) {
+            try {
+                this.curElement.hide()
+            } catch (error) {}
+            this.curElement = this.elementArr[this.spriteIndex]
+            this.curElement.show()
+            this.lastSprite = this.spriteIndex
+        }
+    }
+
+    drawAt(rect) {
+        if (this.spriteIndex != this.lastSprite) {
+            this.draw()
+        }
+        this.curElement.x(rect.xPos)
+        this.curElement.y(rect.yPos)
+        this.curElement.size(rect.width, rect.height)
     }
 
     nextSprite() {
@@ -46,6 +68,25 @@ class SpriteSheet {
         if (this.spriteIndex > this.spritesArr.length - 1) {
             this.spritesIndex = this.spritesArr.length - 1
         }
+    }
+}
+
+class Sprite extends Rect {
+    constructor(spriteSheet, x, y, w, h) {
+        super(x, y, w, h)
+        this.spriteSheet = spriteSheet
+    }
+
+    draw() {
+        this.spriteSheet.drawAt(this)
+    }
+
+    nextSprite() {
+        this.spriteSheet.nextSprite()
+    }
+
+    setSprite(num) {
+        this.spriteSheet.setSprite(num)
     }
 }
 
@@ -140,59 +181,83 @@ class Character {
     }
 }
 
-var snot = new SpriteSheet(['assets/charZephyr/snot.svg',
+
+var svgDraw = SVG().addTo('body').size(800, 800)
+
+var snotSprites = new SpriteSheet(['assets/charZephyr/snot.svg',
     'assets/charZephyr/snot.svg',
     'assets/charZephyr/snotHitch.svg',
     'assets/charZephyr/snotSneeze.svg'
-])
-var nostril = new SpriteSheet(['assets/charZephyr/nostril.svg',
+], svgDraw)
+
+var nostrilSprites = new SpriteSheet(['assets/charZephyr/nostril.svg',
     'assets/charZephyr/nostril.svg'
-])
-var earClose = new SpriteSheet(['assets/charZephyr/earClose.svg',
+], svgDraw)
+
+var earCloseSprites = new SpriteSheet(['assets/charZephyr/earClose.svg',
     'assets/charZephyr/earCloseHitch.svg',
     'assets/charZephyr/earCloseSneeze.svg'
-])
-var eye = new SpriteSheet(['assets/charZephyr/eyeOpen.svg',
+], svgDraw)
+
+var eyeSprites = new SpriteSheet(['assets/charZephyr/eyeOpen.svg',
     'assets/charZephyr/eyeBlink.svg',
     'assets/charZephyr/eyeClose1.svg',
     'assets/charZephyr/eyeClose2.svg',
     'assets/charZephyr/eyeClose3.svg',
     'assets/charZephyr/eyeClosed.svg',
     'assets/charZephyr/eyeClosedB.svg'
-])
-var pupil = new SpriteSheet(['assets/charZephyr/pupil.svg',
+], svgDraw)
+
+var pupilSprites = new SpriteSheet(['assets/charZephyr/pupil.svg',
     'assets/charZephyr/pupilRound.svg',
     'assets/charZephyr/pupilRoundB.svg'
-])
-var head = new SpriteSheet(['assets/charZephyr/headIdle.svg',
+], svgDraw)
+
+var headSprites = new SpriteSheet(['assets/charZephyr/headIdle.svg',
     'assets/charZephyr/headTickle.svg',
     'assets/charZephyr/headHitch.svg',
     'assets/charZephyr/headSneeze.svg'
-])
-var wing = new SpriteSheet(['assets/charZephyr/wing.svg'])
+], svgDraw)
 
-var upperNeck = new SpriteSheet(['assets/charZephyr/neckUpper.svg',
+var wingSprites = new SpriteSheet(['assets/charZephyr/wing.svg'], svgDraw)
+
+var upperNeckSprites = new SpriteSheet(['assets/charZephyr/neckUpper.svg',
     'assets/charZephyr/neckUpperB.svg',
     'assets/charZephyr/neckUpperHitch.svg'
-])
-var lowerNeck = new SpriteSheet(['assets/charZephyr/neckLower.svg',
+], svgDraw)
+
+var lowerNeckSprites = new SpriteSheet(['assets/charZephyr/neckLower.svg',
     'assets/charZephyr/neckLowerHitch.svg',
     'assets/charZephyr/neckLowerSneeze.svg'
-])
-var farEar = new SpriteSheet(['assets/charZephyr/earFar.svg',
+], svgDraw)
+
+var farEarSprites = new SpriteSheet(['assets/charZephyr/earFar.svg',
     'assets/charZephyr/earFarHitch.svg',
     'assets/charZephyr/earFarSneeze.svg'
-])
+], svgDraw)
 
 var previewSprites = new SpriteSheet([
     'assets/charZephyr/preview/previewIdle.svg',
     'assets/charZephyr/preview/previewTickle.svg',
     'assets/charZephyr/preview/previewHitch.svg',
     'assets/charZephyr/preview/previewSneezeSnot.svg'
-])
+], svgDraw)
 var charZephyr = new Character()
 
-var svgDraw = SVG().addTo('body').size(800, 800)
+var toolSprites = new SpriteSheet([
+    'assets/tools/feather.svg',
+    'assets/tools/brush.svg',
+    'assets/tools/duster.svg',
+    'assets/tools/flower.svg',
+    'assets/tools/powderBrush.svg',
+    'assets/tools/chhinkni.svg',
+    'assets/tools/hand.svg',
+    'assets/tools/tissue.svg',
+], svgDraw)
+
+var toolCursor = new Sprite(toolSprites, 50, 50, 100, 100)
+
+
 
 //load sprites
 // farEar.draw(svgDraw)
@@ -210,6 +275,14 @@ document.addEventListener('keydown', function(event) {
     if (event.code == 'ArrowUp') {
         irritate = true
     }
+
+
+}, true)
+
+document.addEventListener('mousedown', function(event) {
+    if (event.button == 0) {
+        toolCursor.nextSprite()
+    }
 }, true)
 
 document.addEventListener('keyup', function(event) {
@@ -218,7 +291,14 @@ document.addEventListener('keyup', function(event) {
     }
 }, true)
 
+var info = document.getElementById("info")
+var mousePos = new Point(0, 0)
 
+function tellPos(p) {
+    info.innerHTML = 'Position X : ' + p.pageX + '<br />Position Y : ' + p.pageY;
+    mousePos.set(p.pageX, p.pageY)
+}
+addEventListener('mousemove', tellPos, false);
 
 function update(progress) {
     if (progress == 0) {
@@ -232,10 +312,13 @@ function update(progress) {
         //console.log(charZephyr.irritation)
         //console.log(charZephyr.sneezePercent)
     previewSprites.setSprite(charZephyr.getSpriteIndex())
+
+    toolCursor.set(mousePos.xPos, mousePos.yPos)
 }
 
 function draw() {
     previewSprites.draw(svgDraw)
+    toolCursor.draw(svgDraw)
 }
 
 function loop(timestamp) {
