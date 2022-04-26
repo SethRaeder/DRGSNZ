@@ -18,9 +18,9 @@ function clamp_range(value, low, high) {
 }
 
 class SpriteSheet {
-    constructor(spritesArr, svgDraw) {
+    constructor(spritesArr) {
         this.spritesArr = spritesArr
-        this.elementArr = await this.fetchElements(svgDraw)
+        this.elementArr = null
         this.spriteIndex = 0
         this.lastSprite = -1
         this.curElement = null
@@ -28,12 +28,13 @@ class SpriteSheet {
 
     async fetchElements(svgDraw) {
         for (let i = 0; i < this.spritesArr.length; i++) {
-            let response = await fetch(this.spritesArr[i])
+            let response = fetch(this.spritesArr[i])
             let element = svgDraw.svg(response.responseText)
             tempArr.push(element)
                 //svgElement.hide()
         }
     }
+
     initElements(svgDraw) {
         let tempArr = []
 
@@ -278,7 +279,6 @@ var previewSprites = new SpriteSheet([
     'assets/charZephyr/preview/previewHitch.svg',
     'assets/charZephyr/preview/previewSneezeSnot.svg'
 ], svgDraw)
-var charZephyr = new Character()
 
 var toolSprites = new SpriteSheet([
     'assets/tools/feather.svg',
@@ -291,20 +291,20 @@ var toolSprites = new SpriteSheet([
     'assets/tools/tissue.svg',
 ], svgDraw)
 
+//Load svg elements
+await snotSprites.fetchElements(svgDraw)
+await farEarSprites.fetchElements(svgDraw)
+await lowerNeckSprites.fetchElements(svgDraw)
+await upperNeckSprites.fetchElements(svgDraw)
+await wingSprites.fetchElements(svgDraw)
+await pupilSprites.fetchElements(svgDraw)
+await eyeSprites.fetchElements(svgDraw)
+await earCloseSprites.fetchElements(svgDraw)
+await nostrilSprites.fetchElements(svgDraw)
+
 var toolCursor = new Sprite(toolSprites, 50, 50, 100, 100)
+var charZephyr = new Character()
 
-
-
-//load sprites
-// farEarSprites.draw()
-// lowerNeckSprites.draw()
-// upperNeckSprites.draw()
-// wingSprites.draw()
-// headSprites.draw()
-// pupilSprites.draw()
-// eyeSprites.draw()
-// earCloseSprites.draw()
-// nostrilSprites.draw()
 
 var irritate = false
 document.addEventListener('keydown', function(event) {
