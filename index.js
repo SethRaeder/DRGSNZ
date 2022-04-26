@@ -40,8 +40,9 @@ class SpriteSheet {
                     // Typical action to be performed when the document is ready:
                     // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
                     // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
-                    let transform = xhttp.responseXML.getElementsByTagName("transform")
-                    console.log(transform)
+                    //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
+                    console.log(xhttp.responseXML)
+                        //console.log(transform)
 
                     //tempArr[i].size(width, height)
 
