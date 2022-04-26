@@ -6,8 +6,6 @@ function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
-
-
 function clamp_range(value, low, high) {
     if (value < low) {
         return low
@@ -33,44 +31,9 @@ class SpriteSheet {
             this.elementArr.push(element)
                 //svgElement.hide()
         }
+        console.log(this.elementArr)
         this.curElement = this.elementArr[0]
-    }
-
-    initElements(svgDraw) {
-        let tempArr = []
-
-        let xhttp = new XMLHttpRequest()
-
-        for (let i = 0; i < this.spritesArr.length; i++) {
-            //tempArr.push(svgDraw.image(this.spritesArr[i]))
-            //tempArr[i].hide()
-
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Typical action to be performed when the document is ready:
-                    // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
-                    // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
-                    //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
-                    //console.log(xhttp.responseText)
-                    tempArr.push(svgDraw.svg(xhttp.responseText))
-                }
-            };
-
-            xhttp.open("GET", this.spritesArr[i])
-            xhttp.send()
-        }
-
-        this.waitForLength(this.spritesArr.length, tempArr)
-        return tempArr
-    }
-
-    waitForLength(lengthDesired, array) {
-        if (array.length === lengthDesired) { //we want it to match
-            setTimeout(this.waitForLength, 50); //wait 50 millisecnds then recheck
-            return;
-        }
-
-        return true
+        console.log(this.curElement)
     }
 
     draw() {
