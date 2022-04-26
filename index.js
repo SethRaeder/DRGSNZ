@@ -41,8 +41,9 @@ class SpriteSheet {
                     // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
                     // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
                     //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
-                    console.log(xhttp.responseXML)
-                        //console.log(transform)
+                    let translate = xhttp.responseXML.innerHTML.match("translate(*)")
+                    tempArr[i].createAttribute("transform")
+                    tempArr[i].setAttribute("transform", translate)
 
                     //tempArr[i].size(width, height)
 
