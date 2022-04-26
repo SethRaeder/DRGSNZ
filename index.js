@@ -33,18 +33,18 @@ class SpriteSheet {
 
         for (let i = 0; i < this.spritesArr.length; i++) {
             tempArr.push(svgDraw.image(this.spritesArr[i]))
-
+            tempArr[i].hide()
 
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     // Typical action to be performed when the document is ready:
-                    let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
-                    let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
-                    let transform = xhttp.responseXML.getElementsByTagName("transform")[0].nodeValue
+                    // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
+                    // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
+                    let transform = xhttp.responseXML.getElementsByTagName("transform")
                     console.log(transform)
 
-                    tempArr[i].size(width, height)
-                    tempArr[i].hide()
+                    //tempArr[i].size(width, height)
+
                 }
             };
 
