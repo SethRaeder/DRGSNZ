@@ -28,14 +28,9 @@ class SpriteSheet {
         for (let i = 0; i < this.spritesArr.length; i++) {
             let response = await fetch(this.spritesArr[i])
             let responseText = await response.text()
-                //let temp = svgDraw.image(this.spritesArr[i])
-                //console.log(temp)
-                //console.log(responseText)
             let temp = new SVG(responseText).addTo(svgDraw)
-
             temp.hide()
             this.elementArr.push(temp)
-
         }
         this.curElement = this.elementArr[0]
     }
@@ -58,7 +53,9 @@ class SpriteSheet {
         }
         this.curElement.x(rect.xPos)
         this.curElement.y(rect.yPos)
-            //this.curElement.size(rect.width, rect.height)
+        let width = this.curElement.size()[0]
+        let height = this.curElement.size()[1]
+        this.curElement.size(rect.width * width, rect.height * height)
     }
 
     nextSprite() {
@@ -275,7 +272,7 @@ await previewSprites.fetchElements(svgDraw)
 await toolSprites.fetchElements(svgDraw)
 console.log('svgs loaded')
 
-var toolCursor = new Sprite(toolSprites, 50, 50, 100, 100)
+var toolCursor = new Sprite(toolSprites, 50, 50, 0.2, 0.2)
 var charZephyr = new Character()
 
 
