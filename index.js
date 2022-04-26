@@ -292,6 +292,7 @@ var toolSprites = new SpriteSheet([
 ], svgDraw)
 
 //Load svg elements
+console.log("Loading svgs")
 await snotSprites.fetchElements(svgDraw)
 await farEarSprites.fetchElements(svgDraw)
 await lowerNeckSprites.fetchElements(svgDraw)
@@ -301,6 +302,7 @@ await pupilSprites.fetchElements(svgDraw)
 await eyeSprites.fetchElements(svgDraw)
 await earCloseSprites.fetchElements(svgDraw)
 await nostrilSprites.fetchElements(svgDraw)
+console.log('svgs loaded')
 
 var toolCursor = new Sprite(toolSprites, 50, 50, 100, 100)
 var charZephyr = new Character()
