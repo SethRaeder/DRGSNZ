@@ -41,6 +41,7 @@ class SpriteSheet {
             try {
                 this.curElement.hide()
             } catch (error) {}
+            console.log(this.curElement)
             this.curElement = this.elementArr[this.spriteIndex]
             this.curElement.show()
             this.lastSprite = this.spriteIndex
