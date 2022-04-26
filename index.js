@@ -42,8 +42,7 @@ class SpriteSheet {
                     // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
                     //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
                     //console.log(xhttp.responseText)
-                    tempArr.push(svgDraw.svg(responseText))
-
+                    tempArr.push(svgDraw.svg(xhttp.responseText))
                 }
             };
 
