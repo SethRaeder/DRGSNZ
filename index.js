@@ -32,8 +32,9 @@ class SpriteSheet {
                 //console.log(temp)
                 //console.log(responseText)
             temp = temp.svg(responseText, true)
+            temp.hide()
             this.elementArr.push(temp)
-                //svgElement.hide()
+
         }
         this.curElement = this.elementArr[0]
     }
@@ -260,15 +261,15 @@ var toolSprites = new SpriteSheet([
 
 //Load svg elements
 console.log("Loading svgs")
-await snotSprites.fetchElements(svgDraw)
-await farEarSprites.fetchElements(svgDraw)
-await lowerNeckSprites.fetchElements(svgDraw)
-await upperNeckSprites.fetchElements(svgDraw)
-await wingSprites.fetchElements(svgDraw)
-await pupilSprites.fetchElements(svgDraw)
-await eyeSprites.fetchElements(svgDraw)
-await earCloseSprites.fetchElements(svgDraw)
-await nostrilSprites.fetchElements(svgDraw)
+    // await snotSprites.fetchElements(svgDraw)
+    // await farEarSprites.fetchElements(svgDraw)
+    // await lowerNeckSprites.fetchElements(svgDraw)
+    // await upperNeckSprites.fetchElements(svgDraw)
+    // await wingSprites.fetchElements(svgDraw)
+    // await pupilSprites.fetchElements(svgDraw)
+    // await eyeSprites.fetchElements(svgDraw)
+    // await earCloseSprites.fetchElements(svgDraw)
+    // await nostrilSprites.fetchElements(svgDraw)
 await previewSprites.fetchElements(svgDraw)
 await toolSprites.fetchElements(svgDraw)
 console.log('svgs loaded')
