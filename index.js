@@ -19,6 +19,7 @@ class SpriteSheet {
     constructor(spritesArr) {
         this.spritesArr = spritesArr
         this.elementArr = []
+        this.sizes = []
         this.spriteIndex = 0
         this.lastSprite = -1
         this.curElement = null
@@ -30,6 +31,11 @@ class SpriteSheet {
             let responseText = await response.text()
             let temp = new SVG(responseText).addTo(svgDraw)
             temp.hide()
+
+            let size = [temp.width(), temp.height()]
+            this.sizes.push(size)
+
+
             this.elementArr.push(temp)
         }
         this.curElement = this.elementArr[0]
@@ -50,12 +56,12 @@ class SpriteSheet {
     drawAt(rect) {
         if (this.spriteIndex != this.lastSprite) {
             this.draw()
+
+            this.curElement.size(rect.width * this.sizes[this.spriteIndex][0], rect.height * this.sizes[this.spriteIndex][1])
         }
         this.curElement.x(rect.xPos)
         this.curElement.y(rect.yPos)
-        let width = this.curElement.width()
-        let height = this.curElement.height()
-        this.curElement.size(rect.width * width, rect.height * height)
+
     }
 
     nextSprite() {
