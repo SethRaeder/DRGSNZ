@@ -33,6 +33,7 @@ class SpriteSheet {
             this.elementArr.push(element)
                 //svgElement.hide()
         }
+        this.curElement = this.elementArr[0]
     }
 
     initElements(svgDraw) {
