@@ -59,9 +59,7 @@ class SpriteSheet {
 
             this.curElement.size(rect.width * this.sizes[this.spriteIndex][0], rect.height * this.sizes[this.spriteIndex][1])
         }
-        this.curElement.x(rect.xPos)
-        this.curElement.y(rect.yPos)
-
+        this.curElement.center(rect.xPos, rect.yPos)
     }
 
     nextSprite() {
