@@ -31,9 +31,9 @@ class SpriteSheet {
             this.elementArr.push(element)
                 //svgElement.hide()
         }
-        console.log(this.elementArr)
+        // console.log(this.elementArr)
         this.curElement = this.elementArr[0]
-        console.log(this.curElement)
+            //console.log(this.curElement)
     }
 
     draw() {
@@ -41,7 +41,7 @@ class SpriteSheet {
             try {
                 this.curElement.hide()
             } catch (error) {}
-            console.log(this.curElement)
+            //console.log(this.curElement)
             this.curElement = this.elementArr[this.spriteIndex]
             this.curElement.show()
             this.lastSprite = this.spriteIndex
