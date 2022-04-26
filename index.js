@@ -32,8 +32,8 @@ class SpriteSheet {
         let xhttp = new XMLHttpRequest()
 
         for (let i = 0; i < this.spritesArr.length; i++) {
-            tempArr.push(svgDraw.image(this.spritesArr[i]))
-            tempArr[i].hide()
+            //tempArr.push(svgDraw.image(this.spritesArr[i]))
+            //tempArr[i].hide()
 
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -41,12 +41,8 @@ class SpriteSheet {
                     // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
                     // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
                     //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
-                    let translate = xhttp.responseXML.innerHTML.match("translate(*)")
-                    tempArr[i].createAttribute("transform")
-                    tempArr[i].setAttribute("transform", translate)
-
-                    //tempArr[i].size(width, height)
-
+                    tempArr.push(svgDraw.svg(xhttp.responseText))
+                    tempArr[i].hide()
                 }
             };
 
