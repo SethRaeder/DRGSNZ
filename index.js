@@ -41,9 +41,9 @@ class SpriteSheet {
                     // let width = xhttp.responseXML.getElementsByTagName("width")[0].nodeValue
                     // let height = xhttp.responseXML.getElementsByTagName("height")[0].nodeValue
                     //let transform = xhttp.responseXML.getElementsByTagName("svg")[0].nodeValue
-                    console.log(xhttp.responseText)
-                    tempArr.push(svgDraw.svg(xhttp.responseText))
-                    tempArr[i].hide()
+                    //console.log(xhttp.responseText)
+                    tempArr.push(svgDraw.svg(responseText))
+
                 }
             };
 
@@ -51,7 +51,17 @@ class SpriteSheet {
             xhttp.send()
         }
 
+        this.waitForLength(this.spritesArr.length, tempArr)
         return tempArr
+    }
+
+    waitForLength(lengthDesired, array) {
+        if (array.length === lengthDesired) { //we want it to match
+            setTimeout(this.waitForLength, 50); //wait 50 millisecnds then recheck
+            return;
+        }
+
+        return true
     }
 
     draw() {
