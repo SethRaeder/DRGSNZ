@@ -29,9 +29,9 @@ class SpriteSheet {
             let response = await fetch(this.spritesArr[i])
             let responseText = await response.text()
             let temp = svgDraw.image(this.spritesArr[i])
-            console.log(temp)
-            console.log(responseText)
-                //temp = temp.svg(responseText,true)
+                //console.log(temp)
+                //console.log(responseText)
+            temp = temp.svg(responseText, true)
             this.elementArr.push(temp)
                 //svgElement.hide()
         }
