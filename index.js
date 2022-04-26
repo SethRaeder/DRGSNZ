@@ -31,7 +31,7 @@ class SpriteSheet {
                 //let temp = svgDraw.image(this.spritesArr[i])
                 //console.log(temp)
                 //console.log(responseText)
-            let temp = svgDraw.svg(responseText).addTo('body')
+            let temp = SVG(svgDraw.svg(responseText))
             temp.hide()
             this.elementArr.push(temp)
 
