@@ -29,6 +29,12 @@ class SpriteSheet {
 
         for (let i = 0; i < this.spritesArr.length; i++) {
             tempArr.push(svgDraw.image(this.spritesArr[i]))
+
+            let doc = tempArr[i].contentDocument;
+            let width = doc.getAttribute("width")
+            let height = doc.getAttribute("height")
+
+            tempArr[i].size(width, height)
             tempArr[i].hide()
         }
 
@@ -52,7 +58,7 @@ class SpriteSheet {
         }
         this.curElement.x(rect.xPos)
         this.curElement.y(rect.yPos)
-        this.curElement.size(rect.width, rect.height)
+            //this.curElement.size(rect.width, rect.height)
     }
 
     nextSprite() {
@@ -119,7 +125,7 @@ class Character {
         this.inhaledChhinkni = 0
         this.inhaledPollen = 0
 
-        this.irritationDecay = -5
+        this.irritationDecay = -1
 
         this.sneezeTime = 0
     }
@@ -146,7 +152,7 @@ class Character {
     }
 
     doIrritation(progress) {
-        let deltaSneeze = map_range(this.irritation, 0, 100, -10, 20) / progress
+        let deltaSneeze = map_range(this.irritation, 0, 100, -1, 5) / progress
         this.changeSneezePercent(deltaSneeze)
         this.changeIrritation(this.irritationDecay / progress)
     }
@@ -260,23 +266,21 @@ var toolCursor = new Sprite(toolSprites, 50, 50, 100, 100)
 
 
 //load sprites
-// farEar.draw(svgDraw)
-// lowerNeck.draw(svgDraw)
-// upperNeck.draw(svgDraw)
-// wing.draw(svgDraw)
-// head.draw(svgDraw)
-// pupil.draw(svgDraw)
-// eye.draw(svgDraw)
-// earClose.draw(svgDraw)
-// nostril.draw(svgDraw)
+// farEarSprites.draw()
+// lowerNeckSprites.draw()
+// upperNeckSprites.draw()
+// wingSprites.draw()
+// headSprites.draw()
+// pupilSprites.draw()
+// eyeSprites.draw()
+// earCloseSprites.draw()
+// nostrilSprites.draw()
 
 var irritate = false
 document.addEventListener('keydown', function(event) {
     if (event.code == 'ArrowUp') {
         irritate = true
     }
-
-
 }, true)
 
 document.addEventListener('mousedown', function(event) {
@@ -292,11 +296,12 @@ document.addEventListener('keyup', function(event) {
 }, true)
 
 var info = document.getElementById("info")
+var sneezeDiv = document.getElementById("sneeze")
 var mousePos = new Point(0, 0)
 
 function tellPos(p) {
     info.innerHTML = 'Position X : ' + p.pageX + '<br />Position Y : ' + p.pageY;
-    mousePos.set(p.pageX, p.pageY)
+    mousePos.set(p.offsetX, p.offsetY)
 }
 addEventListener('mousemove', tellPos, false);
 
@@ -314,11 +319,13 @@ function update(progress) {
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
+
+    sneezeDiv.innerHTML = "Sneeze%: " + charZephyr.sneezePercent + "<br />Irritation: " + charZephyr.irritation
 }
 
 function draw() {
-    previewSprites.draw(svgDraw)
-    toolCursor.draw(svgDraw)
+    previewSprites.draw()
+    toolCursor.draw()
 }
 
 function loop(timestamp) {
