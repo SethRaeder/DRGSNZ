@@ -1,7 +1,3 @@
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function map_range(value, low1, high1, low2, high2) {
     return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
@@ -188,7 +184,6 @@ class Character {
     }
 }
 
-
 var svgDraw = SVG().addTo('body').size(800, 800)
 
 var snotSprites = new SpriteSheet(['assets/charZephyr/snot.svg',
@@ -299,15 +294,28 @@ document.addEventListener('keyup', function(event) {
     }
 }, true)
 
-var info = document.getElementById("info")
-var sneezeDiv = document.getElementById("sneeze")
+
 var mousePos = new Point(0, 0)
 
 function tellPos(p) {
-    info.innerHTML = 'Position X : ' + p.pageX + '<br />Position Y : ' + p.pageY;
     mousePos.set(p.offsetX, p.offsetY)
 }
 addEventListener('mousemove', tellPos, false);
+
+function newSlider(name, min, max) {
+    const slide = document.createElement('input')
+    slide.type = 'range'
+    slide.min = min
+    slide.max = max
+    slide.class = 'slider'
+    slide.id = name
+    document.body.appendChild(slide)
+    return slide
+}
+
+const sliderA = newSlider("test", 1, 100)
+
+
 
 function update(progress) {
     if (progress == 0) {
@@ -323,8 +331,6 @@ function update(progress) {
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
-
-    sneezeDiv.innerHTML = "Sneeze%: " + charZephyr.sneezePercent + "<br />Irritation: " + charZephyr.irritation
 }
 
 function draw() {
