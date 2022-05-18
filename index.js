@@ -266,7 +266,7 @@ class Character {
             //Idle.
             this.sneezeState = sneezeEnum.IDLE
         }
-
+        console.log(this.sneezeState)
     }
 
     getSpriteIndex() {
