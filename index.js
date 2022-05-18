@@ -169,6 +169,8 @@ class Character {
         }
 
         this.breathHoldCounter -= deltaSeconds
+        console.log(this.breath)
+        console.log(this.breathHoldCounter)
     }
     doLungs(deltaSeconds) {
         this.changeLungs(this.breath * deltaSeconds)
