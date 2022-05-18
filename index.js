@@ -155,7 +155,7 @@ class Character {
         amount = Math.min(100 - this.lungs, amount)
         this.lungs = clamp_range(this.lungs + amount, 0, 100)
         if (amount > 0) {
-            this.breathHoldCounter += (8 / 100) * amount
+            this.breathHoldCounter += (16 / 100) * amount
         }
     }
 
@@ -217,6 +217,7 @@ class Character {
                 break;
         }
 
+        this.breathHoldCounter = clamp_range(this.breathHoldCounter, -5, 20)
         this.breathHoldCounter -= deltaSeconds
         this.changeLungs(this.breath * deltaSeconds)
 
