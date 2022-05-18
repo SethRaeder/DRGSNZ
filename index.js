@@ -316,11 +316,11 @@ function newSlider(name, min, max) {
 const sliderIrritation = newSlider("irritation", 0, 100)
 const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
 
-sliderIrritation.addEventListener("change", function() {
+sliderIrritation.addEventListener("input", function() {
     charZephyr.irritation = this.value;
 })
 
-sliderSneezePercent.addEventListener("change", function() {
+sliderSneezePercent.addEventListener("input", function() {
     charZephyr.sneezePercent = this.value;
 })
 
