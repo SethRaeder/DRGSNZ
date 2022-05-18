@@ -436,9 +436,9 @@ function update(progress) {
         //console.log(progress)
         //console.log(charZephyr.irritation)
         //console.log(charZephyr.sneezePercent)
-    console.log('breath: ' + charZephyr.breath)
-    console.log('holdCounter: ' + charZephyr.breathHoldCounter)
-    console.log('sneezeState: ' + charZephyr.sneezeState)
+        //console.log('breath: ' + charZephyr.breath)
+        //console.log('holdCounter: ' + charZephyr.breathHoldCounter)
+        //console.log('sneezeState: ' + charZephyr.sneezeState)
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
