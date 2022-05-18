@@ -342,8 +342,8 @@ function update(progress) {
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
 
-    //sliderIrritation.value = charZephyr.irritation;
-    //sliderSneezePercent.value = charZephyr.sneezePercent;
+    sliderIrritation.value = charZephyr.irritation;
+    sliderSneezePercent.value = charZephyr.sneezePercent;
 }
 
 function draw() {
