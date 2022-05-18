@@ -211,6 +211,7 @@ class Character {
             case breathEnum.SNEEZE:
                 if (this.lungs <= 0) {
                     this.breath = breathEnum.IDLE
+                    this.sneezeState = sneezeEnum.IDLE
                 }
                 break;
         }
@@ -241,29 +242,41 @@ class Character {
     }
 
     doSneeze(deltaSeconds) {
-        if (this.isSneezeReady) {
-            if (this.sneezeTime > 1) {
-                this.sneezeTime = 0
-                this.sneezeState = sneezeEnum.SNEEZING
-                this.changeSneezePercent(-1 * Math.random() * 100)
-                this.changeIrritation(-1 * Math.random() * 50)
-                this.breath = breathEnum.SNEEZE
-            }
+        if (this.isSneezeReady()) {
+            //Start sneeze
+            this.sneezeTime = 0
+            this.sneezeState = sneezeEnum.SNEEZING
+            this.changeSneezePercent(-1 * Math.random() * 100)
+            this.changeIrritation(-1 * Math.random() * 50)
+            this.breath = breathEnum.SNEEZE
+
+        } else if (this.isSneezing()) {
             this.sneezeTime += deltaSeconds
+            if (this.sneezeTime > 1) { //Adjust for sneeze time. I.E. audio length
+                this.sneezeState = sneezeEnum.IDLE
+            }
+        } else if (this.sneezePercent >= this.hitchThreshold) {
+            if (this.sneezePercent >= this.sneezeThreshold && this.lungs > 50) {
+                this.sneezeState = sneezeEnum.SNEEZEREADY
+            }
+            this.sneezeState = sneezeEnum.HITCH
+        } else if (this.sneezePercent >= this.idleThreshold) {
+            this.sneezeState = sneezeEnum.TICKLE
+        } else {
+            //Idle.
+            this.sneezeState = sneezeEnum.IDLE
         }
-        if (this.sneezePercent >= this.sneezeThreshold && this.lungs > 50) {
-            this.sneezeState = sneezeEnum.SNEEZEREADY
-        }
+
     }
 
     getSpriteIndex() {
-        if (this.isSneezing) {
+        if (this.isSneezing()) {
             return 3
         }
-        if (this.isSneezeReady || this.isHitching) {
+        if (this.isSneezeReady() || this.isHitching()) {
             return 2
         }
-        if (this.isTickle) {
+        if (this.isTickle()) {
             return 1
         }
         return 0
