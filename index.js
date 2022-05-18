@@ -256,10 +256,10 @@ class Character {
                 this.sneezeState = sneezeEnum.IDLE
             }
         } else if (this.sneezePercent >= this.hitchThreshold) {
+            this.sneezeState = sneezeEnum.HITCH
             if (this.sneezePercent >= this.sneezeThreshold && this.lungs > 50) {
                 this.sneezeState = sneezeEnum.SNEEZEREADY
             }
-            this.sneezeState = sneezeEnum.HITCH
         } else if (this.sneezePercent >= this.idleThreshold) {
             this.sneezeState = sneezeEnum.TICKLE
         } else {
