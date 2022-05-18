@@ -152,6 +152,7 @@ class Character {
 
     changeLungs(amount) {
         //let deltaBreath = (progress * breathPerSecond / 1000)
+        amount = Math.min(100 - this.lungs, amount)
         this.lungs = clamp_range(this.lungs + amount, 0, 100)
         if (amount > 0) {
             this.breathHoldCounter += (8 / 100) * amount
