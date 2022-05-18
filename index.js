@@ -313,8 +313,12 @@ function newSlider(name, min, max) {
     return slide
 }
 
-const sliderA = newSlider("test", 1, 100)
+const sliderIrritation = newSlider("irritation", 0, 100)
+const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
 
+sliderIrritation.addEventListener("change", function() {
+    charZephyr.irritation = sliderIrritation.value;
+})
 
 
 function update(progress) {
@@ -331,6 +335,8 @@ function update(progress) {
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
+
+    sliderIrritation.value = charZephyr.irritation;
 }
 
 function draw() {
