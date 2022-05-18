@@ -219,8 +219,6 @@ class Character {
 
         this.breathHoldCounter -= deltaSeconds
         this.changeLungs(this.breath * deltaSeconds)
-            //console.log(this.breath)
-            //console.log(this.breathHoldCounter)
 
     }
 
@@ -267,7 +265,6 @@ class Character {
             //Idle.
             this.sneezeState = sneezeEnum.IDLE
         }
-        console.log(this.sneezeState)
     }
 
     getSpriteIndex() {
@@ -419,12 +416,10 @@ const sliderLungs = newSlider("lungs", 0, 100)
 
 sliderIrritation.addEventListener("input", function() {
     charZephyr.irritation = Number(this.value);
-    console.log(charZephyr.irritation)
 })
 
 sliderSneezePercent.addEventListener("input", function() {
     charZephyr.sneezePercent = Number(this.value);
-    console.log(charZephyr.sneezePercent)
 })
 
 
@@ -440,6 +435,9 @@ function update(progress) {
         //console.log(progress)
         //console.log(charZephyr.irritation)
         //console.log(charZephyr.sneezePercent)
+    console.log('breath: ' + charZephyr.breath)
+    console.log('holdCounter: ' + charZephyr.breathHoldCounter)
+    console.log('sneezeState: ' + charZephyr.sneezeState)
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
