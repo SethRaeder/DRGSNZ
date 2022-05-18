@@ -317,11 +317,11 @@ const sliderIrritation = newSlider("irritation", 0, 100)
 const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
 
 sliderIrritation.addEventListener("input", function() {
-    charZephyr.irritation = this.value;
+    charZephyr.irritation = this.val();
 })
 
 sliderSneezePercent.addEventListener("input", function() {
-    charZephyr.sneezePercent = this.value;
+    charZephyr.sneezePercent = this.val();
 })
 
 
