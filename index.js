@@ -143,7 +143,7 @@ class Character {
         //let deltaBreath = (progress * breathPerSecond / 1000)
         this.lungs = clamp_range(this.lungs + amount, 0, 100)
         if (amount > 0) {
-            this.breathHoldCounter += (100 / 8 * amount)
+            this.breathHoldCounter += (100 / (0.1 * amount))
         }
     }
 
