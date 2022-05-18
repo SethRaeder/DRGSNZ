@@ -160,7 +160,7 @@ class Character {
                 this.sneezeTime = 0
                 this.sneezing = false
                 this.changeSneezePercent(-1 * Math.random() * 100)
-                this.changeIrritation(-1 * Math.random() * 100)
+                this.changeIrritation(-1 * Math.random() * 50)
             }
             this.sneezeTime += progress
         }
@@ -317,7 +317,11 @@ const sliderIrritation = newSlider("irritation", 0, 100)
 const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
 
 sliderIrritation.addEventListener("change", function() {
-    charZephyr.irritation = sliderIrritation.value;
+    charZephyr.irritation = this.value;
+})
+
+sliderSneezePercent.addEventListener("change", function() {
+    charZephyr.sneezePercent = this.value;
 })
 
 
@@ -337,6 +341,7 @@ function update(progress) {
     toolCursor.set(mousePos.xPos, mousePos.yPos)
 
     sliderIrritation.value = charZephyr.irritation;
+    sliderSneezePercent.value = charZephyr.sneezePercent;
 }
 
 function draw() {
