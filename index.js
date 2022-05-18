@@ -93,6 +93,11 @@ class Sprite extends Rect {
     }
 }
 
+var breathEnum = {
+    'IDLE': 0,
+    'IN': 45,
+    'OUT': -45
+}
 class Character {
     constructor() {
         this.sneezeThreshold = 100
@@ -106,7 +111,7 @@ class Character {
         this.sneezing = false
 
         this.lungs = 0.0
-        this.breath = 0.0
+        this.breath = breathEnum.IDLE
         this.breathHoldCounter = 0.0
 
         this.sensitivity = 0.0
@@ -142,17 +147,31 @@ class Character {
         }
     }
 
-    doLungs(deltaSeconds) {
-        if (this.breathHoldCounter <= 0 && this.breath <= 0 && this.lungs <= 25) {
-            //Need to breathe
-            this.breath = 45.0
-        } else if (this.lungs > 0) {
-            this.breath = -45.0;
-        } else {
-            this.breath = 0.0;
+    doBreath(deltaSeconds) {
+        switch (this.breath) {
+            case breathEnum.IDLE:
+                if (this.breathHoldCounter <= 0) {
+                    this.breath = breathEnum.IN
+                }
+                break;
+            case breathEnum.IN:
+                if (this.lungs >= 90) {
+                    this.breath = breathEnum.OUT
+                }
+                break
+            case breathEnum.OUT:
+                if (this.lungs <= 25 && this.breathHoldCounter <= 0) {
+                    this.breath = breathEnum.IN
+                } else if (this.lungs <= 0) {
+                    this.breath = breathEnum.IDLE
+                }
+                break;
         }
-        this.changeLungs(this.breath * deltaSeconds)
+
         this.breathHoldCounter -= deltaSeconds
+    }
+    doLungs(deltaSeconds) {
+        this.changeLungs(this.breath * deltaSeconds)
     }
 
     irritate(deltaSeconds) {
