@@ -317,13 +317,13 @@ const sliderIrritation = newSlider("irritation", 0, 100)
 const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
 
 sliderIrritation.addEventListener("input", function() {
-    charZephyr.irritation = this.value;
-    console.log(this.value)
+    charZephyr.irritation = Number(this.value);
+    console.log(charZephyr.irritation)
 })
 
 sliderSneezePercent.addEventListener("input", function() {
-    charZephyr.sneezePercent = this.value;
-    console.log(this.value)
+    charZephyr.sneezePercent = Number(this.value);
+    console.log(charZephyr.sneezePercent)
 })
 
 
@@ -336,8 +336,8 @@ function update(progress) {
     }
     charZephyr.update(progress)
         //console.log(progress)
-    console.log(charZephyr.irritation)
-    console.log(charZephyr.sneezePercent)
+        //console.log(charZephyr.irritation)
+        //console.log(charZephyr.sneezePercent)
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
