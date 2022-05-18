@@ -106,6 +106,7 @@ class Character {
         this.sneezing = false
 
         this.lungs = 0.0
+        this.breath = 0.0
         this.breathHoldCounter = 0.0
 
         this.sensitivity = 0.0
@@ -122,47 +123,65 @@ class Character {
         this.inhaledChhinkni = 0
         this.inhaledPollen = 0
 
-        this.irritationDecay = -1
+        this.irritationDecay = -2
 
         this.sneezeTime = 0
     }
 
-    update(progress) {
-        this.doIrritation(progress)
-        this.doSneeze(progress)
+    update(deltaSeconds) {
+        this.doIrritation(deltaSeconds)
+        this.doLungs(deltaSeconds)
+        this.doSneeze(deltaSeconds)
     }
+
+    changeLungs(amount) {
+        //let deltaBreath = (progress * breathPerSecond / 1000)
+        this.lungs = clamp_range(this.lungs + amount, 0, 100)
+        if (amount > 0) {
+            this.breathHoldCounter += (100 / 8 * amount)
+        }
+    }
+
+    doLungs(deltaSeconds) {
+        if (this.breathHoldCounter <= 0 && this.breath <= 0 && this.lungs <= 25) {
+            //Need to breathe
+            this.breath = 45.0
+        } else if (this.lungs > 0) {
+            this.breath = -45.0;
+        } else {
+            this.breath = 0.0;
+        }
+        this.changeLungs(this.breath * deltaSeconds)
+        this.breathHoldCounter -= deltaSeconds
+    }
+
+    irritate(deltaSeconds) {
+        this.changeIrritation(20 * deltaSeconds)
+    }
+
     changeIrritation(amount) {
         this.irritation = clamp_range(this.irritation + amount, 0, 100)
+    }
+
+    doIrritation(deltaSeconds) {
+        let deltaSneeze = map_range(this.irritation, 0, 100, -1, 5) * deltaSeconds
+        this.changeSneezePercent(deltaSneeze)
+        this.changeIrritation(this.irritationDecay * deltaSeconds)
     }
 
     changeSneezePercent(amount) {
         this.sneezePercent = clamp_range(this.sneezePercent + amount, 0, 100)
     }
 
-    changeLungs(amount) {
-        //let deltaBreath = (progress * breathPerSecond / 1000)
-        this.lungs = clamp_range(this.lungs + amount, 0, 100)
-    }
-
-    irritate(progress) {
-        this.changeIrritation(20 / progress)
-    }
-
-    doIrritation(progress) {
-        let deltaSneeze = map_range(this.irritation, 0, 100, -1, 5) / progress
-        this.changeSneezePercent(deltaSneeze)
-        this.changeIrritation(this.irritationDecay / progress)
-    }
-
-    doSneeze(progress) {
+    doSneeze(deltaSeconds) {
         if (this.sneezing) {
-            if (this.sneezeTime > 1000) {
+            if (this.sneezeTime > 1) {
                 this.sneezeTime = 0
                 this.sneezing = false
                 this.changeSneezePercent(-1 * Math.random() * 100)
                 this.changeIrritation(-1 * Math.random() * 50)
             }
-            this.sneezeTime += progress
+            this.sneezeTime += deltaSeconds
         }
         if (this.sneezePercent >= this.sneezeThreshold) {
             this.sneezing = true
@@ -184,7 +203,7 @@ class Character {
     }
 }
 
-var svgDraw = SVG().addTo('body').size(800, 800)
+var svgDraw = SVG().addTo('body').size(1280, 720)
 
 var snotSprites = new SpriteSheet(['assets/charZephyr/snot.svg',
     'assets/charZephyr/snot.svg',
@@ -315,6 +334,7 @@ function newSlider(name, min, max) {
 
 const sliderIrritation = newSlider("irritation", 0, 100)
 const sliderSneezePercent = newSlider("sneezePercent", 0, 100)
+const sliderLungs = newSlider("lungs", 0, 100)
 
 sliderIrritation.addEventListener("input", function() {
     charZephyr.irritation = Number(this.value);
@@ -331,10 +351,11 @@ function update(progress) {
     if (progress == 0) {
         return
     }
+    let deltaSeconds = progress / 1000
     if (irritate) {
-        charZephyr.irritate(progress)
+        charZephyr.irritate(deltaSeconds)
     }
-    charZephyr.update(progress)
+    charZephyr.update(deltaSeconds)
         //console.log(progress)
         //console.log(charZephyr.irritation)
         //console.log(charZephyr.sneezePercent)
@@ -344,6 +365,7 @@ function update(progress) {
 
     sliderIrritation.value = charZephyr.irritation;
     sliderSneezePercent.value = charZephyr.sneezePercent;
+    sliderLungs.value = charZephyr.lungs;
 }
 
 function draw() {
