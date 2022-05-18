@@ -139,7 +139,7 @@ class Character {
         this.inhaledChhinkni = 0
         this.inhaledPollen = 0
 
-        this.irritationDecay = -2
+        this.irritationDecay = -10
 
         this.sneezeTime = 0
     }
@@ -232,7 +232,7 @@ class Character {
     }
 
     doIrritation(deltaSeconds) {
-        let deltaSneeze = map_range(this.irritation, 0, 100, -1, 5) * deltaSeconds
+        let deltaSneeze = map_range(this.irritation, 0, 100, -5, 30) * deltaSeconds
         this.changeSneezePercent(deltaSneeze)
         this.changeIrritation(this.irritationDecay * deltaSeconds)
     }
