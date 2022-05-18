@@ -336,8 +336,8 @@ function update(progress) {
     }
     charZephyr.update(progress)
         //console.log(progress)
-        //console.log(charZephyr.irritation)
-        //console.log(charZephyr.sneezePercent)
+    console.log(charZephyr.irritation)
+    console.log(charZephyr.sneezePercent)
     previewSprites.setSprite(charZephyr.getSpriteIndex())
 
     toolCursor.set(mousePos.xPos, mousePos.yPos)
